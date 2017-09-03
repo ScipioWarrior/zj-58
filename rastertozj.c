@@ -10,7 +10,7 @@
 // uncomment next line in order to have verbose dump in DEBUGFILE
 // after print
 
-//#define DEBUGP
+#define DEBUGP
 
 #define DEBUGFILE "/tmp/debugraster.txt"
 
@@ -225,7 +225,7 @@ int main(int argc, char *argv[])
 	lfd = fopen ("/tmp/raster.txt","w");
 #endif
 
-	initializeSettings(NULL);
+	initializeSettings(argv[5]);
 	jobSetup();
 	ras = cupsRasterOpen(fd, CUPS_RASTER_READ);
 	page = 0;
