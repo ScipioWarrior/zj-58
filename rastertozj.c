@@ -118,7 +118,7 @@ inline int getOptionChoiceIndex(const char * choiceName, ppd_file_t * ppd)
 }
 
 
-inline void initializeSettings(char * commandLineOptionSettings)
+inline void initializeSettings()
 {
 	ppd_file_t *    ppd         = NULL;
 	cups_option_t * options     = NULL;
@@ -127,13 +127,6 @@ inline void initializeSettings(char * commandLineOptionSettings)
 	ppd = ppdOpenFile(getenv("PPD"));
 
 	ppdMarkDefaults(ppd);
-
-	numOptions = cupsParseOptions(commandLineOptionSettings, 0, &options);
-	if ((numOptions != 0) && (options != NULL))
-	{
-		cupsMarkOptions(ppd, numOptions, options);
-		cupsFreeOptions(numOptions, options);
-	}
 
 	memset(&settings, 0x00, sizeof(struct settings_));
 
@@ -225,7 +218,7 @@ int main(int argc, char *argv[])
 	lfd = fopen ("/tmp/raster.txt","w");
 #endif
 
-	initializeSettings(argv[5]);
+	initializeSettings();
 	jobSetup();
 	ras = cupsRasterOpen(fd, CUPS_RASTER_READ);
 	page = 0;
