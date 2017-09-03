@@ -225,7 +225,7 @@ int main(int argc, char *argv[])
 	lfd = fopen ("/tmp/raster.txt","w");
 #endif
 
-	initializeSettings(argv[5]);
+	initializeSettings(NULL);
 	jobSetup();
 	ras = cupsRasterOpen(fd, CUPS_RASTER_READ);
 	page = 0;
