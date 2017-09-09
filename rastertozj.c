@@ -10,7 +10,7 @@
 // uncomment next line in order to have verbose dump in DEBUGFILE
 // after print
 
-#define DEBUGP
+//#define DEBUGP
 
 #define DEBUGFILE "/tmp/debugraster.txt"
 
@@ -118,7 +118,7 @@ inline int getOptionChoiceIndex(const char * choiceName, ppd_file_t * ppd)
 }
 
 
-inline void initializeSettings()
+void initializeSettings(char * commandLineOptionSettings)
 {
 	ppd_file_t *    ppd         = NULL;
 	cups_option_t * options     = NULL;
@@ -127,6 +127,13 @@ inline void initializeSettings()
 	ppd = ppdOpenFile(getenv("PPD"));
 
 	ppdMarkDefaults(ppd);
+
+	numOptions = cupsParseOptions(commandLineOptionSettings, 0, &options);
+	if ((numOptions != 0) && (options != NULL))
+	{
+		cupsMarkOptions(ppd, numOptions, options);
+		cupsFreeOptions(numOptions, options);
+	}
 
 	memset(&settings, 0x00, sizeof(struct settings_));
 
@@ -218,7 +225,7 @@ int main(int argc, char *argv[])
 	lfd = fopen ("/tmp/raster.txt","w");
 #endif
 
-	initializeSettings();
+	initializeSettings(argv[5]);
 	jobSetup();
 	ras = cupsRasterOpen(fd, CUPS_RASTER_READ);
 	page = 0;
